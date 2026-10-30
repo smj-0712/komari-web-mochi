@@ -38,7 +38,7 @@ const Index = () => {
     const [statusCardsVisibility, setStatusCardsVisibility] = useLocalStorage<StatusCardsVisibility>('statusCardsVisibility', {
       currentTime: true,
       currentOnline: true,
-      regionOverview: true,
+      regionOverview: false,
       assetOverview: true,
       trafficOverview: true,
       networkSpeed: true
