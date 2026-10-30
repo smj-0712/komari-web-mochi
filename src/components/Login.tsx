@@ -114,6 +114,21 @@ const LoginDialog = ({ trigger, autoOpen = false, showSettings = true, info, onL
         </a>
       );
     }
+    // Public site: skip the popup and use the backend login page (supports passkey)
+    // Private site (onLoginSuccess provided): keep the popup, which must open automatically
+    if (!onLoginSuccess) {
+      const goLogin = () => {
+        const back = window.location.pathname + window.location.search + window.location.hash;
+        window.location.href = `/admin/login?redirect=${encodeURIComponent(back)}`;
+      };
+      return trigger ? (
+        <span onClick={goLogin} style={{ cursor: "pointer" }}>
+          {trigger}
+        </span>
+      ) : (
+        <Button onClick={goLogin}>{t("login.title")}</Button>
+      );
+    }
     return (
       <Dialog.Root open={open} onOpenChange={setOpen}>
         <Dialog.Trigger>
@@ -212,6 +227,16 @@ const LoginDialog = ({ trigger, autoOpen = false, showSettings = true, info, onL
                           : ""
                   }
                 )}
+              </Button>
+              <Button
+                onClick={() => {
+                  window.location.href = "/admin/login";
+                }}
+                variant="outline"
+                disabled={isLoading}
+                type="button"
+              >
+                Passkey / Admin login
               </Button>
             </Flex>
           </Box>
